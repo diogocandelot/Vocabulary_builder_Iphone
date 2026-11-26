@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dceeff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WordFlow">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>WordFlow — Inglês & Português</title>
+<style>
+:root{--green:#24476b;--green2:#356b9a;--mint:#dceeff;--paper:#f4f9ff;--line:#d5e4f2;--muted:#5f7184;--red:#a43d3d;--gold:#91661a}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:#18251e;font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px}.tabs{display:flex;background:white;border:1px solid var(--line);border-radius:14px;padding:5px;gap:5px}
+.tab{flex:1;border:0;background:transparent;border-radius:10px;padding:11px 8px;color:var(--green);font-weight:650;cursor:pointer}.tab.active{background:var(--mint)}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:14px}
+h2{font-size:19px;margin:0 0 5px}.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input,select{width:100%;border:1px solid #c8d9e9;border-radius:10px;padding:12px;font:inherit;background:white;color:#18251e}
+button{font:inherit;cursor:pointer}.btn{border:0;border-radius:11px;padding:12px 15px;background:var(--green);color:white;font-weight:700}.btn.secondary{background:white;color:var(--green);border:1px solid #b9cfe3}.btn.light{background:var(--mint);color:var(--green)}.btn.danger{color:var(--red);background:white;border:1px solid #e6caca}
+.full{width:100%;margin-top:14px}.row{display:flex;gap:9px}.row>*{flex:1}.hidden{display:none!important}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}.stat{background:#f0f7ff;border:1px solid var(--line);border-radius:12px;padding:12px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:22px;color:var(--green)}
+.card{margin-top:14px;background:#eaf4ff;border-radius:16px;padding:22px 16px;text-align:center;min-height:210px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px}
+.eyebrow{font-size:11px;letter-spacing:.09em;color:var(--green2);font-weight:800}.prompt{font-size:clamp(24px,6vw,34px);font-weight:750;color:var(--green);overflow-wrap:anywhere}
+.answer{font-size:20px;font-weight:700;color:var(--green2);padding-top:12px;border-top:1px solid #d2e2f1;width:100%}
+.note{font-size:13px;color:var(--muted)}.message{font-size:13px;margin-top:10px;color:var(--green2)}.message.error{color:var(--red)}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:13px}.word{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px}.word .words{flex:1;min-width:0}.word strong{display:block;overflow-wrap:anywhere}.word span{display:block;color:var(--muted);font-size:14px;overflow-wrap:anywhere}.word small{color:var(--gold)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.tools button{padding:8px 10px;font-size:13px}
+footer{max-width:760px;margin:0 auto;padding:0 16px 26px;color:var(--muted);font-size:12px}
+@media(max-width:430px){main{padding:12px}.panel{padding:15px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:9px}.stat strong{font-size:19px}.row{gap:7px}.btn{padding:11px 10px}}
+</style>
+</head>
+<body>
+<main>
+  <nav class="tabs" aria-label="Navegação">
+    <button class="tab active" data-tab="train">🎯 Treinar</button>
+    <button class="tab" data-tab="words">📚 Vocabulário</button>
+    <button class="tab" data-tab="progress">📈 Progresso</button>
+  </nav>
+  <section id="train" class="panel">
+    <h2>Treino de memória</h2><p class="sub">Tente lembrar a resposta antes de revelá-la. O app vai priorizar o que você ainda está aprendendo.</p>
+    <label for="direction">Quero ver as palavras em</label>
+    <select id="direction"><option value="en">🇬🇧 Inglês — responder em português</option><option value="pt">🇧🇷 Português — responder em inglês</option></select>
+    <label for="categoryFilter">Categoria</label>
+    <select id="categoryFilter"><option value="all">Todas as categorias</option><option>Bombas</option><option>Válvulas</option><option>Tratamento de óleo</option><option>Trocadores de calor</option><option>Instrumentação e controle</option><option>Compressores e gás</option><option>Tanques e armazenamento</option><option>Offloading e sistemas marítimos</option><option>Segurança e operação</option><option>Manutenção e integridade</option><option>Químicos e utilidades</option><option>Elétrica e geração</option><option>Piping e componentes</option><option>Separação, filtros e tratamento</option><option>Poços e produção</option><option>Gestão operacional</option><option>Geral</option></select>
+    <div class="card">
+      <div class="eyebrow" id="cardLabel">PRONTO PARA COMEÇAR</div>
+      <div class="prompt" id="prompt">Vamos praticar?</div>
+      <div class="note" id="hint">Toque em Play para sortear um termo.</div>
+      <div class="answer hidden" id="answer"></div>
+      <div id="exampleDisplay" class="hidden" style="width:100%;text-align:left;border-top:1px solid #d2e2f1;padding-top:12px">
+        <div class="eyebrow">EXEMPLO DE USO</div>
+        <div id="exampleText" style="margin-top:5px;color:#24476b;font-weight:600;overflow-wrap:anywhere"></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button id="play" class="btn">▶ Play</button>
+      <button id="reveal" class="btn secondary" disabled>Mostrar resposta</button>
+    </div>
+    <div class="row" style="margin-top:9px">
+      <button id="wrong" class="btn danger" disabled>✕ Não sabia</button>
+      <button id="right" class="btn light" disabled>✓ Acertei</button>
+    </div>
+    <div class="tools"><button id="next" class="btn secondary" disabled>Próximo termo →</button></div>
+    <div id="trainMessage" class="message" role="status"></div>
+  </section>
+  <section id="words" class="panel hidden">
+    <h2>Meu vocabulário</h2><p class="sub">Cadastre palavras ou expressões. Os dados ficam salvos neste navegador.</p>
+    <form id="wordForm">
+      <label for="english">Palavra ou expressão em inglês</label><input id="english" placeholder="Ex.: The pump has tripped" required maxlength="160">
+      <label for="portuguese">Tradução em português</label><input id="portuguese" placeholder="Ex.: A bomba desarmou" required maxlength="160">
+      <label for="example">Frase de exemplo em inglês (opcional)</label><input id="example" placeholder="Ex.: The lubrication pump is running." maxlength="300">
+      <label for="category">Categoria</label><input id="category" list="categoryOptions" placeholder="Ex.: Bombas, Válvulas, Offloading" value="Geral" maxlength="80"><datalist id="categoryOptions"><option value="Bombas"><option value="Válvulas"><option value="Tratamento de óleo"><option value="Trocadores de calor"><option value="Instrumentação e controle"><option value="Compressores e gás"><option value="Tanques e armazenamento"><option value="Offloading e sistemas marítimos"><option value="Segurança e operação"><option value="Manutenção e integridade"><option value="Químicos e utilidades"><option value="Elétrica e geração"><option value="Piping e componentes"><option value="Separação, filtros e tratamento"><option value="Poços e produção"><option value="Gestão operacional"><option value="Geral"></datalist>
+      <div class="row"><button id="saveWordButton" class="btn full" type="submit">＋ Salvar palavra</button><button id="cancelEdit" class="btn secondary hidden" type="button">Cancelar edição</button></div>
+      <div id="formMessage" class="message" role="status"></div>
+    </form>
+    <div class="row" style="margin-top:16px;align-items:center"><h2 style="font-size:16px;flex:1;margin:0">Termos cadastrados</h2><span id="wordCount" class="note">0 termos</span></div>
+    <label for="wordSearch">Buscar termo</label><input id="wordSearch" placeholder="Digite uma palavra em inglês ou português">
+    <div class="panel" style="margin-top:12px;padding:14px;background:#f2f8ff">
+      <h2 style="font-size:16px;margin-bottom:5px">Backup do vocabulário</h2>
+      <p class="note">Exporte seus termos, categorias e progresso para um arquivo JSON. Guarde esse arquivo fora do iPhone para poder recuperar seus dados.</p>
+      <div class="row" style="margin-top:10px">
+        <button id="exportBackup" type="button" class="btn secondary">⬇ Exportar backup</button>
+        <button id="importBackup" type="button" class="btn light">⬆ Importar backup</button>
+      </div>
+      <input id="backupFile" type="file" accept=".json,application/json" class="hidden" aria-label="Selecionar arquivo de backup">
+      <div id="backupMessage" class="message" role="status" aria-live="polite"></div>
+    </div>
+    <div id="wordList" class="list"></div>
+    <button id="clearAll" class="btn danger full">Apagar todos os termos</button>
+  </section>
+  <section id="progress" class="panel hidden">
+    <h2>Seu progresso</h2><p class="sub">Os números são calculados a partir das avaliações feitas durante os treinos.</p>
+    <div class="stats">
+      <div class="stat"><small>Termos</small><strong id="totalStat">0</strong></div>
+      <div class="stat"><small>Acertos</small><strong id="rightStat">0</strong></div>
+      <div class="stat"><small>Precisão</small><strong id="accuracyStat">0%</strong></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><small>Para revisar</small><strong id="dueStat">0</strong></div>
+      <div class="stat"><small>Em aprendizado</small><strong id="learningStat">0</strong></div>
+      <div class="stat"><small>Revisões</small><strong id="reviewsStat">0</strong></div>
+    </div>
+    <h2 style="font-size:16px;margin-top:20px">Precisam de atenção</h2>
+    <p class="sub">Termos errados recentemente ou com revisão pendente.</p><div id="reviewList" class="list"></div>
+    <button id="resetProgress" class="btn secondary full">Zerar estatísticas (manter termos)</button>
+  </section>
+</main>
+<footer>Protótipo local: seus termos e progresso ficam no armazenamento do navegador deste dispositivo. Use o mesmo navegador para reencontrá-los.</footer>
+<script>
+const KEY='wordflow-v1';
+let data={words:[],totalAnswers:0,totalCorrect:0};
+function load(){
+ try{
+  const x=JSON.parse(localStorage.getItem(KEY));
+  if(x&&Array.isArray(x.words)){
+   // Once initialized, respect the user's exact list. Do not reinsert deleted starter terms.
+   data=x;
+   // Remove legacy built-in seed entries from older versions, but keep user-created terms.
+   if(Array.isArray(data.words)) data.words=data.words.filter(w=>!/^seed\d+$/.test(String(w.id||'')));
+   if(!Number.isFinite(data.totalAnswers)) data.totalAnswers=0;
+   if(!Number.isFinite(data.totalCorrect)) data.totalCorrect=0;
+   try{localStorage.setItem(KEY,JSON.stringify(data));}catch(ignore){}
+  }else{
+   data={
+    words:[],
+    totalAnswers:0,
+    totalCorrect:0
+   };
+   localStorage.setItem(KEY,JSON.stringify(data));
+  }
+ }catch(e){
+  data={
+   words:[],
+   totalAnswers:0,
+   totalCorrect:0
+  };
+  try{localStorage.setItem(KEY,JSON.stringify(data));}catch(ignore){}
+ }
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){say('Não foi possível salvar. Verifique se o navegador permite armazenamento local.',true)}refreshCategoryFilter();renderWords();renderProgress()}
+function uid(){return 'w'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function say(s,err=false){const el=document.getElementById('trainMessage');el.textContent=s;el.className='message'+(err?' error':'')}
+let current=null,revealed=false;
+const $=id=>document.getElementById(id);
+function filteredWords(){const c=$('categoryFilter').value;return data.words.filter(w=>c==='all'||w.category===c)}
+function refreshCategoryFilter(){const sel=$('categoryFilter'),keep=sel.value;const cats=[...new Set(data.words.map(w=>(w.category||'Geral').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));sel.innerHTML='<option value="all">Todas as categorias</option>'+cats.map(c=>'<option></option>').join('');[...sel.options].slice(1).forEach((o,i)=>{o.value=cats[i];o.textContent=cats[i]});if(cats.includes(keep))sel.value=keep}
+function choose(){const pool=filteredWords();if(!pool.length){current=null;revealed=false;$('prompt').textContent='Nenhum termo nesta categoria';$('hint').textContent='Cadastre um termo ou escolha outra categoria.';$('answer').classList.add('hidden');buttons(false);return}
+ const now=Date.now();const due=pool.filter(w=>!w.due||w.due<=now);const candidates=due.length?due:pool;
+ // Prioritize missed terms, then terms with a lower learning box; randomize among similar candidates.
+ candidates.sort((a,b)=>(b.lastWrong-a.lastWrong)||(a.box-b.box));
+ const top=candidates.slice(0,Math.min(4,candidates.length));current=top[Math.floor(Math.random()*top.length)];
+ revealed=false;const dir=$('direction').value;
+ $('cardLabel').textContent='PERGUNTA ALEATÓRIA · '+current.category.toUpperCase();
+ $('prompt').textContent=dir==='en'?current.en:current.pt;$('hint').textContent='Pense na tradução antes de revelar.';$('answer').textContent=dir==='en'?current.pt:current.en;$('answer').classList.add('hidden');$('exampleDisplay').classList.add('hidden');$('exampleText').textContent=current.example||'Nenhuma frase de exemplo cadastrada.';
+ buttons(true);$('reveal').disabled=false;$('next').disabled=false;say('Termo sorteado. Tente lembrar antes de revelar.');
+}
+function buttons(on){$('reveal').disabled=!on;$('right').disabled=!on;$('wrong').disabled=!on;$('next').disabled=!on}
+function reveal(){if(!current)return;revealed=true;$('answer').classList.remove('hidden');if(current.example&&current.example.trim()){$('exampleText').textContent=current.example;$('exampleDisplay').classList.remove('hidden')}else{$('exampleDisplay').classList.add('hidden')}$('hint').textContent='Confira a tradução e veja a frase de exemplo. Marque seu resultado abaixo.';$('right').disabled=false;$('wrong').disabled=false;$('reveal').disabled=true}
+function rate(ok){if(!current)return;const now=Date.now();current.reviews=(current.reviews||0)+1;data.totalAnswers=(data.totalAnswers||0)+1;
+ if(ok){current.correct=(current.correct||0)+1;data.totalCorrect=(data.totalCorrect||0)+1;current.box=Math.min(5,(current.box||0)+1);const days=[0,1,3,7,14,30];current.due=now+days[current.box]*86400000;current.lastWrong=0;say('Boa! Próxima revisão: '+(days[current.box]===1?'amanhã':days[current.box]+' dias')+'.')}
+ else{current.wrong=(current.wrong||0)+1;current.box=0;current.due=now+60000;current.lastWrong=now;say('Sem problema — este termo volta para revisão em breve.')}
+ save();choose()
+}
+let editingId=null;
+function resetWordForm(){editingId=null;$('wordForm').reset();$('category').value='Geral';$('saveWordButton').textContent='＋ Salvar palavra';$('cancelEdit').classList.add('hidden');$('formMessage').textContent=''}
+function startEdit(w){editingId=w.id;$('english').value=w.en||'';$('portuguese').value=w.pt||'';$('example').value=w.example||'';$('category').value=w.category||'Geral';$('saveWordButton').textContent='Salvar alterações';$('cancelEdit').classList.remove('hidden');$('formMessage').textContent='Editando termo: '+w.en; $('english').focus();}
+function renderWords(){const list=$('wordList');list.innerHTML='';$('wordCount').textContent=data.words.length+' termos';
+ const query=($('wordSearch')?.value||'').trim().toLowerCase();
+ const shown=data.words.filter(w=>!query||(w.en+' '+w.pt+' '+(w.example||'')+' '+w.category).toLowerCase().includes(query));
+ shown.slice(0,150).forEach(w=>{const div=document.createElement('div');div.className='word';const content=document.createElement('div');content.className='words';const en=document.createElement('strong');en.textContent=w.en;const pt=document.createElement('span');pt.textContent=w.pt;const ex=document.createElement('span');ex.textContent=w.example?'Ex.: '+w.example:'';const cat=document.createElement('small');cat.textContent=(w.category||'Geral')+' · '+(w.wrong||0)+' erro(s)';content.append(en,pt,ex,cat);const actions=document.createElement('div');actions.style.display='flex';actions.style.flexDirection='column';actions.style.gap='6px';const edit=document.createElement('button');edit.className='btn secondary';edit.textContent='Editar';edit.onclick=()=>startEdit(w);const del=document.createElement('button');del.className='btn danger';del.textContent='Remover';del.setAttribute('aria-label','Remover '+w.en);del.onclick=()=>{data.words=data.words.filter(x=>x.id!==w.id);if(current&&current.id===w.id)current=null;if(editingId===w.id)resetWordForm();save();renderWords();if(!data.words.length){$('prompt').textContent='Vamos praticar?';$('hint').textContent='Cadastre um termo para começar.';buttons(false)}};actions.append(edit,del);div.append(content,actions);list.append(div)});
+ if(shown.length>150){const more=document.createElement('p');more.className='note';more.textContent='Mostrando os primeiros 150 resultados. Refine a busca para encontrar outros termos.';list.append(more)}
+ if(!shown.length){const empty=document.createElement('p');empty.className='note';empty.textContent='Nenhum termo encontrado.';list.append(empty)}
+}
+function renderProgress(){const words=data.words;const answers=data.totalAnswers||0,correct=data.totalCorrect||0;const now=Date.now();
+ $('totalStat').textContent=words.length;$('rightStat').textContent=correct;$('accuracyStat').textContent=(answers?Math.round(correct/answers*100):0)+'%';$('reviewsStat').textContent=answers;
+ $('dueStat').textContent=words.filter(w=>!w.due||w.due<=now).length;$('learningStat').textContent=words.filter(w=>(w.box||0)<3).length;
+ const list=$('reviewList');list.innerHTML='';const needs=words.filter(w=>(w.wrong||0)>0||!w.due||w.due<=now).sort((a,b)=>(b.lastWrong||0)-(a.lastWrong||0)).slice(0,12);
+ if(!needs.length){const p=document.createElement('p');p.className='note';p.textContent='Tudo em dia por aqui! Continue praticando.';list.append(p)}
+ needs.forEach(w=>{const d=document.createElement('div');d.className='word';const t=document.createElement('div');t.className='words';const s=document.createElement('strong');s.textContent=w.en;const span=document.createElement('span');span.textContent=w.pt;const small=document.createElement('small');small.textContent=(w.wrong||0)+' erro(s) · nível '+(w.box||0);t.append(s,span,small);d.append(t);const b=document.createElement('button');b.className='btn secondary';b.textContent='Treinar';b.onclick=()=>{switchTab('train');$('categoryFilter').value='all';current=w;revealed=false;const dir=$('direction').value;$('cardLabel').textContent='REVISÃO · '+w.category.toUpperCase();$('prompt').textContent=dir==='en'?w.en:w.pt;$('answer').textContent=dir==='en'?w.pt:w.en;$('answer').classList.add('hidden');$('exampleDisplay').classList.add('hidden');$('exampleText').textContent=w.example||'';$('hint').textContent='Tente lembrar antes de revelar.';buttons(true);say('Revisão selecionada.');};d.append(b);list.append(d)})
+}
+function switchTab(tab){document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));['train','words','progress'].forEach(id=>$(id).classList.toggle('hidden',id!==tab));if(tab==='progress')renderProgress()}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+function exportBackup(){
+ const payload={app:'WordFlow',formatVersion:1,exportedAt:new Date().toISOString(),data};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');
+ const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+ a.href=url;a.download='wordflow-backup-'+stamp+'.json';a.style.display='none';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
+ $('backupMessage').className='message';$('backupMessage').textContent='Backup gerado. Confira a pasta Downloads/Arquivos e guarde uma cópia segura.';
+}
+function normalizeBackupWord(w,i){
+ if(!w||typeof w!=='object'||typeof w.en!=='string'||!w.en.trim()||typeof w.pt!=='string'||!w.pt.trim())throw new Error('Há um termo sem inglês ou tradução em português.');
+ return {...w,id:(typeof w.id==='string'&&w.id)?w.id:uid(),en:w.en.trim(),pt:w.pt.trim(),example:typeof w.example==='string'?w.example:'',category:typeof w.category==='string'&&w.category.trim()?w.category.trim():'Geral',box:Number.isFinite(w.box)?w.box:0,due:Number.isFinite(w.due)?w.due:0,correct:Number.isFinite(w.correct)?w.correct:0,wrong:Number.isFinite(w.wrong)?w.wrong:0,reviews:Number.isFinite(w.reviews)?w.reviews:0,lastWrong:Number.isFinite(w.lastWrong)?w.lastWrong:0};
+}
+function importBackupFile(file){
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const parsed=JSON.parse(String(reader.result||''));
+   const incoming=Array.isArray(parsed)?parsed:(parsed&&parsed.data&&Array.isArray(parsed.data.words)?parsed.data.words:(parsed&&Array.isArray(parsed.words)?parsed.words:null));
+   if(!incoming)throw new Error('O arquivo não parece ser um backup válido do WordFlow.');
+   const seen=new Set();const words=incoming.map(normalizeBackupWord);
+   for(const w of words){const key=w.en.toLocaleLowerCase();if(seen.has(key))throw new Error('O backup contém termos em inglês duplicados: '+w.en);seen.add(key)}
+   if(!confirm('Importar '+words.length+' termos? Isso substituirá o vocabulário e o progresso atuais. Recomendamos exportar um backup antes.'))return;
+   const source=Array.isArray(parsed)?{}:(parsed.data&&Array.isArray(parsed.data.words)?parsed.data:parsed);
+   data={words,totalAnswers:Number.isFinite(source.totalAnswers)?source.totalAnswers:0,totalCorrect:Number.isFinite(source.totalCorrect)?source.totalCorrect:0};
+   save();resetWordForm();current=null;buttons(false);refreshCategoryFilter();renderWords();renderProgress();
+   $('prompt').textContent=words.length?'Backup importado!':'Backup importado sem termos';$('hint').textContent='Vocabulário restaurado com sucesso.';
+   $('backupMessage').className='message';$('backupMessage').textContent='Importação concluída: '+words.length+' termos restaurados.';
+  }catch(err){$('backupMessage').className='message error';$('backupMessage').textContent='Não foi possível importar: '+(err&&err.message?err.message:'arquivo inválido');}
+  $('backupFile').value='';
+ };
+ reader.onerror=()=>{$('backupMessage').className='message error';$('backupMessage').textContent='Não foi possível ler o arquivo selecionado.';$('backupFile').value='';};
+ reader.readAsText(file);
+}
+$('exportBackup').addEventListener('click',exportBackup);
+$('importBackup').addEventListener('click',()=>$('backupFile').click());
+$('backupFile').addEventListener('change',e=>importBackupFile(e.target.files&&e.target.files[0]));
+$('wordSearch').addEventListener('input',renderWords);
+$('wordForm').addEventListener('submit',e=>{e.preventDefault();const en=$('english').value.trim(),pt=$('portuguese').value.trim(),example=$('example').value.trim(),category=$('category').value.trim()||'Geral';if(!en||!pt)return;if(data.words.some(w=>w.id!==editingId&&w.en.toLowerCase()===en.toLowerCase())){$('formMessage').textContent='Esta expressão em inglês já está cadastrada.';$('formMessage').className='message error';return}
+ if(editingId){const w=data.words.find(x=>x.id===editingId);if(!w)return;w.en=en;w.pt=pt;w.example=example;w.category=category;save();resetWordForm();$('formMessage').textContent='Alterações salvas!';$('formMessage').className='message';}else{data.words.push({id:uid(),en,pt,example,category,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0});save();resetWordForm();$('formMessage').textContent='Termo salvo neste navegador!';$('formMessage').className='message';}});
+$('cancelEdit').onclick=resetWordForm;
+$('play').onclick=choose;$('next').onclick=choose;$('reveal').onclick=reveal;
+// 'Acertei' registra o acerto e avança imediatamente, mesmo sem revelar a resposta.
+$('right').onclick=()=>{if(!current)return;rate(true)};$('wrong').onclick=()=>rate(false);
+$('direction').onchange=()=>{if(current){const dir=$('direction').value;$('prompt').textContent=dir==='en'?current.en:current.pt;$('answer').textContent=dir==='en'?current.pt:current.en;$('answer').classList.add('hidden');$('exampleDisplay').classList.add('hidden');revealed=false;$('reveal').disabled=false;$('right').disabled=true;$('wrong').disabled=true}};
+$('categoryFilter').onchange=()=>{current=null;$('prompt').textContent='Pronto para treinar?';$('hint').textContent='Toque em Play para sortear um termo.';$('answer').classList.add('hidden');buttons(false)};
+$('clearAll').onclick=()=>{if(confirm('Apagar todos os termos cadastrados? Essa ação não pode ser desfeita.')){data.words=[];save();current=null;buttons(false);$('prompt').textContent='Lista vazia';$('hint').textContent='Cadastre palavras para voltar a treinar.'}};
+$('resetProgress').onclick=()=>{if(confirm('Zerar as estatísticas de todos os termos? Os termos serão mantidos.')){data.totalAnswers=0;data.totalCorrect=0;data.words.forEach(w=>{w.box=0;w.due=0;w.correct=0;w.wrong=0;w.reviews=0;w.lastWrong=0});save();renderProgress()}};
+load();renderWords();renderProgress();buttons(false);
+</script>
+<script>
+// Registro do Service Worker: permite abrir o WordFlow sem internet após a primeira visita online.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service Worker não registrado:', err));
+  });
+}
+</script>
+</body></html>
