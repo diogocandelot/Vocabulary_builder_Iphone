@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wordflow-pwa-v2';
+const CACHE_NAME = 'wordflow-pwa-v4';
 const APP_SHELL = [
   './',
   './index.html',
