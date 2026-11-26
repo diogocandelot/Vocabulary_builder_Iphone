@@ -112,22 +112,25 @@ function load(){
  try{
   const x=JSON.parse(localStorage.getItem(KEY));
   if(x&&Array.isArray(x.words)){
+   // Once initialized, respect the user's exact list. Do not reinsert deleted starter terms.
    data=x;
-   const existing=new Set(data.words.map(w=>(w.en||'').trim().toLowerCase()));
-   starter.forEach((w,i)=>{
-    const key=w.en.trim().toLowerCase();
-    if(!existing.has(key)){
-     data.words.push({...w,id:'seed'+i,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0});
-     existing.add(key);
-    }
-   });
-   try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+   if(!Number.isFinite(data.totalAnswers)) data.totalAnswers=0;
+   if(!Number.isFinite(data.totalCorrect)) data.totalCorrect=0;
   }else{
-   data.words=starter.map((w,i)=>({...w,id:'seed'+i,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0}));
-   try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+   data={
+    words:starter.map((w,i)=>({...w,id:'seed'+i,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0})),
+    totalAnswers:0,
+    totalCorrect:0
+   };
+   localStorage.setItem(KEY,JSON.stringify(data));
   }
  }catch(e){
-  data.words=starter.map((w,i)=>({...w,id:'seed'+i,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0}));
+  data={
+   words:starter.map((w,i)=>({...w,id:'seed'+i,box:0,due:0,correct:0,wrong:0,reviews:0,lastWrong:0})),
+   totalAnswers:0,
+   totalCorrect:0
+  };
+  try{localStorage.setItem(KEY,JSON.stringify(data));}catch(ignore){}
  }
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){say('Não foi possível salvar. Verifique se o navegador permite armazenamento local.',true)}refreshCategoryFilter();renderWords();renderProgress()}
